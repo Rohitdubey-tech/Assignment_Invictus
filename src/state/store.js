@@ -19,7 +19,8 @@ export function loadState(seed) {
       localStorage.setItem(KEY, JSON.stringify(initial));
       return initial;
     }
-    return JSON.parse(raw);
+    // re-hydrate date strings into Date objects after loading from localStorage
+    return hydrate(JSON.parse(raw));
   } catch {
     return hydrate(seed);
   }

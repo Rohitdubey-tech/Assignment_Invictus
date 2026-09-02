@@ -88,6 +88,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 9
 
+**How to reproduce:** Refresh the page after initial load. Expenses stored in `localStorage` have their dates formatted as raw ISO date strings (e.g. `"2026-03-12"`) rather than localized dates (`"12 Mar, 2026"`), and date sorting comparisons return `NaN`.
+
+**What is wrong:** In `src/state/store.js`, `loadState` called `hydrate(seed)` only on the initial run. When `raw` was present in `localStorage`, it called `JSON.parse(raw)` directly without running `hydrate`, leaving `date` as a raw string instead of a `Date` object. In `format.js`, `formatDate` only applied formatting if `date instanceof Date`.
+
+**What I changed:** In `src/state/store.js`, wrapped `JSON.parse(raw)` with `hydrate(...)`. In `src/lib/format.js`, updated `formatDate` and `dateValue` to safely parse and handle both Date instances and string representations without timezone shifts.
+
+---
+
+## Bug 10
+
 **How to reproduce:**
 
 **What is wrong:**
