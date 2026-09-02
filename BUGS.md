@@ -38,6 +38,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 4
 
+**How to reproduce:** In a scenario where a debtor owes an amount exactly equal to what a creditor is owed (e.g. Person A owes $50, Person B is owed $50), check the "Settle up" panel. No transfer is displayed at all, and the settlement never happens.
+
+**What is wrong:** In `src/lib/settle.js`, the loop handled `d.amount > c.amount` and `d.amount < c.amount`, but the `else` branch (when `d.amount === c.amount`) simply incremented `i += 1; j += 1` without recording any transfer in the `transfers` array.
+
+**What I changed:** In `src/lib/settle.js`, updated the settlement loop to determine `amount = Math.min(d.amount, c.amount)`. When `amount > 0.001`, a transfer is recorded, subtracted from both parties, and pointer(s) advance when remaining amounts drop below 0.001. All transfer amounts are also formatted to 2 decimal places.
+
+---
+
+## Bug 5
+
 **How to reproduce:**
 
 **What is wrong:**
