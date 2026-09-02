@@ -58,6 +58,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 6
 
+**How to reproduce:** Sort or filter the expenses (e.g., search for "Board game" or filter by category "Stay"). Click "Delete" on that expense, or edit its amount. A completely different expense is deleted or modified.
+
+**What is wrong:** `ExpenseList.jsx` passed the row's index in the filtered/sorted array to `onDeleteAt(index)` and `onUpdateAt(index, patch)`. The reducer in `store.js` then spliced or patched `state.expenses[action.index]`, which referred to a completely different expense in the master array. Also, rows used `key={index}` which caused stale state when editing.
+
+**What I changed:** In `src/state/store.js`, changed `DELETE_EXPENSE` to filter by `e.id !== action.id`, and `UPDATE_EXPENSE` to match `e.id === action.id`. In `src/components/ExpenseList.jsx` and `src/App.jsx`, passed `expense.id` to delete and update handlers, keyed items by `expense.id`, and synchronized draft amounts via `useEffect`.
+
+---
+
+## Bug 7
+
 **How to reproduce:**
 
 **What is wrong:**
