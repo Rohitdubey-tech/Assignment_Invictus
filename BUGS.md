@@ -78,6 +78,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 8
 
+**How to reproduce:** Add a new member using the "Add member" form in the Summary card. The total member count increments, but the new member does not appear in the "Paid so far" list.
+
+**What is wrong:** In `src/components/SummaryCards.jsx`, `perPerson` was memoized with `[expenses]` as its only dependency. `members` was omitted, so adding a new member did not trigger recalculation of `perPerson`.
+
+**What I changed:** Added `members` to the dependency array of `perPerson`: `useMemo(..., [members, expenses])`.
+
+---
+
+## Bug 9
+
 **How to reproduce:**
 
 **What is wrong:**

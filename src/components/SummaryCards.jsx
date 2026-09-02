@@ -5,6 +5,7 @@ import { totalSpent } from "../lib/balances.js";
 export default function SummaryCards({ members, expenses, onAddMember }) {
   const [name, setName] = useState("");
 
+  // need members in dependency array so new members appear in list
   const perPerson = useMemo(() => {
     return members.map((m) => {
       const paid = expenses
@@ -12,7 +13,7 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
         .reduce((s, e) => s + Number(e.amount), 0);
       return { id: m.id, name: m.name, paid };
     });
-  }, [expenses]);
+  }, [members, expenses]);
 
   const spent = totalSpent(expenses);
 
