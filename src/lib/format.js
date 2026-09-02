@@ -12,6 +12,16 @@ export function formatDate(date) {
   return String(date);
 }
 
+// helper to get timestamp for sorting
 export function dateValue(date) {
-  return date;
+  if (!date) return 0;
+  if (date instanceof Date) return date.getTime();
+  if (typeof date === "string") {
+    const parts = date.slice(0, 10).split("-");
+    if (parts.length === 3) {
+      return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])).getTime();
+    }
+    return new Date(date).getTime() || 0;
+  }
+  return new Date(date).getTime() || 0;
 }
