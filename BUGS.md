@@ -108,10 +108,8 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 11
 
-**How to reproduce:**
+**How to reproduce:** Fill in description and amount in "Add expense" and click "Save expense". The expense is added, but the description and amount fields remain filled with the old data.
 
-**What is wrong:**
+**What is wrong:** `submit` in `AddExpenseForm.jsx` dispatched `onAdd` but did not reset the form input states (`description`, `amount`).
 
-**What I changed:**
-
----
+**What I changed:** In `src/components/AddExpenseForm.jsx`, reset `description` and `amount` to empty strings upon successful form submission.

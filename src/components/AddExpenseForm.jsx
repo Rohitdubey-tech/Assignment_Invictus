@@ -64,6 +64,9 @@ export default function AddExpenseForm({ members, onAdd }) {
       date: new Date(date),
       category,
     });
+    // clear input fields after saving expense
+    setDescription("");
+    setAmount("");
   }
 
   return (
