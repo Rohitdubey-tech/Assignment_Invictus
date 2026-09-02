@@ -6,17 +6,19 @@ export function computeBalances(members, expenses) {
 
   for (const exp of expenses) {
     const shares = sharesForExpense(exp);
+    // credit payer full amount they paid
     bal[exp.paidBy] = (bal[exp.paidBy] || 0) + Number(exp.amount);
 
+    // deduct each member's share
     for (const [id, share] of Object.entries(shares)) {
       const key = Number(id);
       bal[key] = (bal[key] || 0) - share;
     }
+  }
 
-    if (!(exp.paidBy in shares) && !(String(exp.paidBy) in shares)) {
-      const n = exp.splitWith.length || 1;
-      bal[exp.paidBy] -= Number(exp.amount) / n;
-    }
+  // round to 2 decimals to avoid floating point issues
+  for (const m of members) {
+    bal[m.id] = Math.round((bal[m.id] || 0) * 100) / 100;
   }
 
   return bal;

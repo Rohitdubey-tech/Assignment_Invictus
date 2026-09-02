@@ -28,6 +28,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 3
 
+**How to reproduce:** Inspect the Uber expense ($60) paid by Diya (id 4) split between Aisha and Ben (ids 1, 2). Check Diya's balance. Diya paid $60 for other people and was not part of the ride, yet $30 ($60 / 2) was deducted from her balance. The sum of all balances did not cancel out to $0.00.
+
+**What is wrong:** In `src/lib/balances.js`, an arbitrary check `if (!(exp.paidBy in shares))` subtracted `Number(exp.amount) / n` from the payer. The specification states: "Paying for other people: Someone can put a cab on their card even if they did not ride. They should get that fare back in full. Only the people who used it should owe a share."
+
+**What I changed:** In `src/lib/balances.js`, removed the deduction block (lines 16–19) and ensured final balances are rounded to 2 decimal places.
+
+---
+
+## Bug 4
+
 **How to reproduce:**
 
 **What is wrong:**
