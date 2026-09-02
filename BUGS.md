@@ -98,6 +98,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 10
 
+**How to reproduce:** When adding an expense with custom percentages (e.g., three people at 33.33%, 33.33%, 33.34%), submitting sometimes displays the error "Percentages must add to 100."
+
+**What is wrong:** In `src/lib/money.js`, `percentsSumTo100` did a strict equality comparison: `values.reduce(...) === 100`. JavaScript floating point addition can evaluate `33.33 + 33.33 + 33.34` or user input to numbers like `100.00000000000001` or `99.99999999999999`.
+
+**What I changed:** In `src/lib/money.js`, updated `percentsSumTo100` to allow an epsilon tolerance: `Math.abs(sum - 100) < 0.01`.
+
+---
+
+## Bug 11
+
 **How to reproduce:**
 
 **What is wrong:**

@@ -24,7 +24,9 @@ export function splitEqual(amount, ids) {
 
 export function percentsSumTo100(percents) {
   const values = Object.values(percents).map(Number);
-  return values.reduce((a, b) => a + b, 0) === 100;
+  const sum = values.reduce((a, b) => a + b, 0);
+  // allow small tolerance for JS floating point math (like 33.33 + 33.33 + 33.34)
+  return Math.abs(sum - 100) < 0.01;
 }
 
 // split by percent in cents and give remainder to largest fractions
