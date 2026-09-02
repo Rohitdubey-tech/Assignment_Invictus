@@ -48,6 +48,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 5
 
+**How to reproduce:** Split $100 equally among 3 people. Each person was assigned $33.33, totaling $99.99 ($0.01 lost). Or split $20 with custom percentages 33.33%, 33.33%, 33.34%. Each person was assigned $6.67, totaling $20.01 ($0.01 invented).
+
+**What is wrong:** In `src/lib/money.js`, `splitEqual` and `splitByPercent` used basic `.toFixed(2)` rounding per person without accounting for remainder pennies. The specification states: "Those portions together should make up the full bill — the group should not 'lose' or 'invent' money in the rounding."
+
+**What I changed:** In `src/lib/money.js`, rewritten `splitEqual` and `splitByPercent` to work in integer cents (`Math.round(amount * 100)`). Leftover cents are distributed to participants (or those with the largest fractional remainder) so that the sum of individual shares in dollars always equals the exact bill amount.
+
+---
+
+## Bug 6
+
 **How to reproduce:**
 
 **What is wrong:**
