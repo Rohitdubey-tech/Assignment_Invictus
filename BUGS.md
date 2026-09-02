@@ -18,6 +18,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 2
 
+**How to reproduce:** Look at the Balances panel on initial load. Ben and Diya paid more than their consumed share, but are marked in red as "owes $...". Aisha and Carlos consumed more than they paid, but are marked in green as "is owed $...".
+
+**What is wrong:** The logic in `BalancesPanel.jsx` was completely inverted: `bal > 0` was labeled as `"owes"` (with CSS class `owe`), and `bal < 0` was labeled as `"is owed"` (with CSS class `owed`). A positive balance means the group owes that member money; a negative balance means that member owes the group.
+
+**What I changed:** In `src/components/BalancesPanel.jsx`, corrected the conditions so that `bal > 0.005` displays `"is owed ${formatMoney(bal)}"` with class `owed`, and `bal < -0.005` displays `"owes ${formatMoney(-bal)}"` with class `owe`.
+
+---
+
+## Bug 3
+
 **How to reproduce:**
 
 **What is wrong:**

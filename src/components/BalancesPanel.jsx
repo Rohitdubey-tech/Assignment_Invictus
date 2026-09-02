@@ -18,10 +18,12 @@ export default function BalancesPanel({ members, balances }) {
         let label = "settled up";
         let cls = "settled";
         if (bal > 0.005) {
-          label = `owes ${formatMoney(bal)}`;
+          // if positive, member is owed money by group
+          label = `is owed ${formatMoney(bal)}`;
           cls = "owe";
         } else if (bal < -0.005) {
-          label = `is owed ${formatMoney(-bal)}`;
+          // if negative, member owes money to group
+          label = `owes ${formatMoney(-bal)}`;
           cls = "owed";
         }
         return (
