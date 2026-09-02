@@ -68,6 +68,16 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ## Bug 7
 
+**How to reproduce:** Select any member in the "Paid by" dropdown filter (e.g. "Aisha Khan"). All expenses disappear and the list says "No expenses match these filters."
+
+**What is wrong:** In `src/App.jsx`, the filter check was `if (paidBy !== "" && e.paidBy !== paidBy) return false;`. The dropdown `<select>` returns string values (e.g. `"1"`), whereas `e.paidBy` in expense objects is a number (`1`). Because of strict inequality (`1 !== "1"`), every expense was filtered out.
+
+**What I changed:** In `src/App.jsx`, updated the check to compare string values: `if (paidBy !== "" && String(e.paidBy) !== String(paidBy)) return false;`.
+
+---
+
+## Bug 8
+
 **How to reproduce:**
 
 **What is wrong:**
